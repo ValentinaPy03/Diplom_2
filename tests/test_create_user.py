@@ -1,6 +1,6 @@
 import allure
-
 from data import AnswerText
+from generators import generate_user_body_without_password
 
 
 class TestCreateUser:
@@ -16,6 +16,6 @@ class TestCreateUser:
         assert user_2.status_code == 403 and (user_2.json()['message'] == AnswerText.TEXT_403_SAME_USER)
 
     @allure.title('Тест ошибку при создании пользователя без передачи одного из обязательных полей')
-    def test_create_user_without_password(self, user_method, generate_user_data_without_required_field):
-        user = user_method.create_user(generate_user_data_without_required_field[0])
+    def test_create_user_without_password(self, user_method):
+        user = user_method.create_user(generate_user_body_without_password())
         assert user.status_code == 403 and (user.json()['message'] == AnswerText.TEXT_403_WITHOUT_REQUIRED_FIELD)

@@ -1,5 +1,5 @@
 import pytest
-from generators import generate_user_body, generate_user_body_without_password, generate_update_user_body
+from generators import generate_user_body
 from methods.order_methods import OrderMethods
 from methods.user_methods import UserMethods
 
@@ -23,18 +23,11 @@ def generate_user_data():
     UserMethods().delete_user(user_token)
 
 @pytest.fixture()
-def generate_user_data_without_required_field():
-    user_data = generate_user_body_without_password()
-    email = user_data['email']
-    name = user_data['name']
-    yield [user_data, email, name]
-
-@pytest.fixture()
-def generate_update_user_data():
-    user_data = generate_update_user_body()
-    email = user_data['email']
-    name = user_data['name']
-    yield [user_data, email, name]
+def create_ang_get_token(user_method, generate_user_data):
+    user_method.create_user(generate_user_data[0])
+    user_token = user_method.user_token_by_user_data(generate_user_data[1], generate_user_data[2],
+                                                     generate_user_data[3])
+    return user_token
 
 
 

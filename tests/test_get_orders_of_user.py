@@ -4,11 +4,9 @@ from data import AnswerText
 
 class TestGetOrderOfUser:
     @allure.title('Получение списка заказов авторизованного пользователя')
-    def test_get_orders_of_auth_user(self, user_method, generate_user_data, order_method):
+    def test_get_orders_of_auth_user(self, user_method, generate_user_data, order_method, create_ang_get_token):
         with allure.step('Создаем пользователя и получаем токен'):
-            user_method.create_user(generate_user_data[0])
-            user_token = user_method.user_token_by_user_data(generate_user_data[1], generate_user_data[2],
-                                                             generate_user_data[3])
+            user_token = create_ang_get_token
         with allure.step('Получаем id двух ингредиентов'):
             ingredient = order_method.get_id_ingredients(4)
             ingredient_2 = order_method.get_id_ingredients(5)

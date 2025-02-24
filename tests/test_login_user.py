@@ -6,7 +6,7 @@ from generators import generate_incorrect_password, generate_incorrect_email
 
 class TestLoginUser:
     @allure.title('Тест на успешную авторизацию')
-    def test_successful_auth(self, user_method, generate_user_data):
+    def test_successful_auth(self, user_method, generate_user_data, create_ang_get_token):
         user_method.create_user(generate_user_data[0])
         user = user_method.log_user(generate_user_data[1], generate_user_data[2], generate_user_data[3])
         assert user.status_code == 200 and (user.json()['success'] == True)
